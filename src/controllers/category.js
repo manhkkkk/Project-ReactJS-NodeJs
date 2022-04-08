@@ -1,0 +1,37 @@
+import Category from '../models/category';
+import Product from '../models/product';
+
+export const list = async (req, res) => {
+	try {
+		const category = await Category.find().exec();
+		res.json(category);
+	} catch (error) {
+		res.status(400).json({
+			error: "Không có danh muc"
+		})
+	}
+}
+export const create = async (req, res) => {
+	try {
+		const category = await new Category(req.body).save();
+		res.json(category);
+	} catch (error) {
+		res.status(400).json({
+			error: "Thêm không thành công"
+		})
+	}
+}
+export const read = async (req, res) => {
+	const condition = { _id: req.params.id };
+	try {
+		const category = await Category.findOne({ _id: req.params.id }).exec();
+		const products = await Product.find({ category }).populate('category').select('-category').exec();
+		res.json({
+			products, category
+		});
+	} catch (error) {
+		res.status(400).json({
+			error: "tim không thành công"
+		})
+	}
+}
