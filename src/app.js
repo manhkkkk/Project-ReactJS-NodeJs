@@ -21,7 +21,7 @@ app.use(express.json())
 app.use("/api", productRoute);
 app.use("/api", categoryRoute);
 app.use("/api", userRoute);
-app.use("/api/", searchRouter)
+app.use("/api", searchRouter)
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerJSDocs))
 // cách chỉ kích thước chữ cách xa nhau
 //connection db

@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import { create, getProduct, list, remove, update } from '../controllers/product';
-import { check, isAdmin, isAuth, requiredSigin } from './../middlewares/check';
 import { userById } from '../controllers/user';
 
 const router = Router();

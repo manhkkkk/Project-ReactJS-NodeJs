@@ -35,3 +35,36 @@ export const read = async (req, res) => {
 		})
 	}
 }
+
+export const geCategory = async (req, res) => {
+	try {
+		const category = await Category.findOne({ _id: req.params.id }).exec();
+		res.json(category);
+	} catch (error) {
+		res.status(400).json({
+			error: "Không có sản phẩm"
+		})
+	}
+}
+export const remove = async (req, res) => {
+	try {
+		const category = await Category.findOneAndDelete({ _id: req.params.id }).exec();
+		res.json(category);
+	} catch (error) {
+		res.status(400).json({
+			error: "Xóa sản phẩm không thành công"
+		})
+	}
+}
+export const update = async (req, res) => {
+	const condition = { _id: req.params.id }
+	const update = req.body;
+	try {
+		const category = await ProduCategoryct.findOneAndUpdate(condition, update).exec();
+		res.json(category);
+	} catch (error) {
+		res.status(400).json({
+			error: "Xóa sản phẩm không thành công"
+		})
+	}
+}

@@ -1,6 +1,7 @@
 import Category from '../models/category';
 import Product from '../models/product';
 
+
 export const create = async (req, res) => {
 	try {
 		const product = await new Product(req.body).save();
@@ -12,17 +13,33 @@ export const create = async (req, res) => {
 		})
 	}
 }
+
 export const list = async (req, res) => {
-	const page = req.query.page * 1 || 1;
-	const limit = req.query.limit * 1 || 6;
-	const skip = limit * (page -1) ;
-	const sort = req.query.sort || '-price';
-	console.log(sort);
+	const page =  parseInt(req.query.page );
+	const limit =  parseInt(req.query.limit);
+	const skip =   limit * (page - 1) ;
+	const sort =  req.query.sort || '';
+	const name = req.query.name;
+	if (name) {
+		const products = await Product.find({ name: new RegExp(name, 'i') }).exec();
+		res.status(200).json({
+			products
+		})
+		return
+	}
 	try {
-		const products = await Product.find().limit(limit).sort(sort).skip(skip).exec();
-		res.json(products);
+		const products = await Product.find()
+		.limit(limit).sort(sort).skip(skip).exec();
+
+		const result = await Promise.allSettled([
+			Product.countDocuments()
+		])
+		
+		const count = await result[0] ? result[0].value : 0;
+		console.log(count);
+		res.json({products,count});
 	} catch (error) {
-		res.status(400).json({
+		res.status(400).json({	
 			error: "Không có sản phẩm"
 		})
 	}
@@ -58,6 +75,5 @@ export const update = async (req, res) => {
 		res.status(400).json({
 			error: "Xóa sản phẩm không thành công"
 		})
-		// dabf 
 	}
 }

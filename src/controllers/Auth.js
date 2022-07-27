@@ -2,7 +2,7 @@ import User from '../models/Auth';
 import jwt from 'jsonwebtoken';
 
 export const register = async (req, res) => {
-	const { email, name, password } = req.body;
+	const { email, password } = req.body;
 	try {
 		const existUser = await User.findOne({ email }).exec();
 		if (existUser) {

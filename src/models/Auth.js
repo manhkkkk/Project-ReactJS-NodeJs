@@ -11,13 +11,13 @@ const userSchema = new Schema({
 	password: {
 		type: String,
 		required: true,
-	}, salt: {
+	},
+	salt: {
 		type: String,
 	}, role: {
 		type: Number,
 		default: 0
 	}
-
 }, { timestamps: true });
 userSchema.pre("save", function (next) {
 	this.salt = uuidv4()
