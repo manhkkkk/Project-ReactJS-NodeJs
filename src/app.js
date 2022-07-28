@@ -30,7 +30,7 @@ mongoose.connect("mongodb://localhost:27017/demo")
 	.catch(error => console.log(error))
 
 // Bước 3: lắng nghe cổng thực thi connect
-const PORT = 8000;
+const PORT = process.env.PORT || 8000;
 app.listen(PORT, () => {
 	console.log("Ban dang chay cong ", PORT);
 })
